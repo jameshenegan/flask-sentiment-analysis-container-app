@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sentiment Analysis Results</title>
+  </head>
+  <body>
+    <h1>Sentiment Analysis of Conversation</h1>
+    <img src="{{ image_path }}" alt="Sentiment Progression" />
+
+    <h3>Conversation Details:</h3>
+    <ul>
+      {% for entry in conversation %}
+      <li>
+        Position: {{ entry.position }}, Author: {{ entry.author }}, Sentiment
+        Score: {{ entry.sentiment_score }}, Text: "{{ entry.text }}"
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

@@ -1,27 +1,29 @@
-# Flask Sentiment Analysis Container App
+# Flask Sentiment Analysis Conversation App
 
-This project is a Flask-based web application that performs sentiment analysis on user-submitted text using a pre-trained **DistilBERT** model from the **Transformers** library. The application is containerized using Docker, making it easy to deploy and run on any platform with Docker support.
+This project is a Flask-based web application for analyzing the sentiment of a conversation between a customer and an agent. Using a pre-trained **DistilBERT** model from the **Transformers** library, the app performs sentiment analysis on each message and visualizes the sentiment progression over the conversation.
 
 ## Features
 
-- **Sentiment Analysis**: Leverages a pre-trained model (`distilbert-base-uncased-finetuned-sst-2-english`) to analyze the sentiment of text input.
-- **Flask Web Interface**: Provides a simple web interface for text input and displays the sentiment and confidence score.
-- **Dockerized**: The application is containerized for easy deployment and isolation of dependencies.
+- **Sentiment Analysis**: Analyzes sentiment on each message in a customer-agent conversation, showing positive or negative sentiment.
+- **Visualization**: Generates a plot of sentiment progression throughout the conversation.
+- **Flask Web Interface**: Provides a user-friendly interface to input conversation data and view analysis results.
+- **Dockerized**: The application is containerized with Docker for easy deployment.
 
 ## Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/) installed on your machine.
-- Optional: Familiarity with Python, Flask, and basic Docker commands.
+- [Docker](https://docs.docker.com/get-docker/) installed.
+- Familiarity with Docker commands and Python (optional but helpful).
 
 ## Project Structure
 
 ```plaintext
 .
-├── Dockerfile           # Docker setup file to build the application image
+├── Dockerfile           # Docker setup for building the application image
 ├── requirements.txt     # List of Python dependencies
 ├── app.py               # Flask application code
 ├── templates/
-│   └── index.html       # HTML template for the web interface
+│   ├── index.html       # HTML template for the input page
+│   └── results.html     # HTML template for displaying results
 └── README.md            # Documentation
 ```
 
@@ -29,7 +31,7 @@ This project is a Flask-based web application that performs sentiment analysis o
 
 ### 1. Clone the Repository
 
-First, clone this repository to your local machine.
+Clone this repository to your local machine:
 
 ```bash
 git clone <repository-url>
@@ -38,7 +40,7 @@ cd <repository-directory>
 
 ### 2. Build the Docker Image
 
-Build the Docker image from the `Dockerfile`. This image includes all dependencies and downloads the sentiment analysis model during the build process.
+Build the Docker image, which installs all dependencies and downloads the sentiment analysis model:
 
 ```bash
 docker build -t flask-sentiment-app .
@@ -46,47 +48,65 @@ docker build -t flask-sentiment-app .
 
 ### 3. Run the Docker Container
 
-Run the container, exposing the app on port 5050. The `-p 5050:5050` flag maps the container’s port 5050 to your machine’s port 5050.
+Run the container and map port 5050 from the container to your local machine:
 
 ```bash
 docker run -p 5050:5050 flask-sentiment-app
 ```
 
-The app will be accessible at `http://localhost:5050`.
+The application will be available at `http://localhost:5050`.
 
 ### 4. Access the Web Application
 
-Navigate to `http://localhost:5050` in your web browser. You should see a simple form where you can input text for sentiment analysis.
+Go to `http://localhost:5050` in your browser. Enter a conversation where each line follows the format `"Author: Message"`, then click "Submit" to analyze the conversation.
 
 ## Application Usage
 
-1. **Enter Text**: Input the text you want to analyze in the provided text area.
-2. **Submit**: Click the "Submit" button.
-3. **View Results**: The app will display the sentiment (e.g., positive, negative) along with the confidence score for the prediction.
+1. **Enter Conversation**: Input text where each line follows the format `Author: Message`. For example:
+
+   ```
+   Customer: Hi, I need help with my account.
+   Agent: Sure, I'd be happy to assist you.
+   Customer: Thanks, I'm feeling frustrated because I can't log in.
+   Agent: I understand, let's get that sorted out for you.
+   ```
+
+2. **Analyze**: Click "Submit" to process the conversation.
+
+3. **View Results**: The application will display:
+   - A plot showing sentiment progression for both the customer and agent over the conversation.
+   - A detailed list of each message with its sentiment score.
 
 ## Example
 
-To test the sentiment analysis, try entering a sentence such as:
+For a conversation such as:
 
-> "I love using this app for sentiment analysis!"
+```
+Customer: This is the best service!
+Agent: Thank you for the feedback!
+Customer: But I had an issue with my last order.
+Agent: I'm here to help resolve that.
+```
 
-The app should return a sentiment label (e.g., "POSITIVE") and a confidence score.
+The app will show a plot where each message is labeled with its sentiment score. Positive messages have positive scores, while negative messages have negative scores.
 
 ## Files
 
-- **app.py**: Main Flask application code. It initializes the sentiment analysis model and handles HTTP routes.
-- **Dockerfile**: Defines the Docker image, including installing dependencies and downloading the model.
-- **requirements.txt**: Lists the Python libraries required by the app.
-- **templates/index.html**: HTML template for the user interface.
+- **app.py**: Main Flask application. Initializes the sentiment analysis model, parses conversation data, and generates sentiment visualizations.
+- **Dockerfile**: Configures the Docker environment, installs dependencies, and downloads the model.
+- **requirements.txt**: Lists required Python packages.
+- **templates/index.html**: HTML form for entering conversation data.
+- **templates/results.html**: Displays sentiment analysis results and plot.
 
 ## Troubleshooting
 
-- **Error: Model not found**: If the container fails due to model loading issues, make sure your `requirements.txt` includes the correct versions of `transformers` and `torch`.
-- **Docker Build Fails**: Ensure Docker is running and you have a stable internet connection, as the model download happens during the build process.
-- **Flask Debug Mode**: By default, Flask is set to debug mode. For production environments, set `debug=False` in `app.py`.
+- **Plot Not Displaying**: Ensure the `matplotlib` library is correctly installed and that the static directory is accessible.
+- **Model Loading Errors**: Verify internet connectivity, as the model downloads during Docker build.
+- **Docker Build Fails**: Ensure Docker is installed and running, and check for network issues.
 
 ## Additional Resources
 
 - [Transformers Documentation](https://huggingface.co/transformers/)
 - [Flask Documentation](https://flask.palletsprojects.com/)
+- [Matplotlib Documentation](https://matplotlib.org/stable/contents.html)
 - [Docker Documentation](https://docs.docker.com/)
