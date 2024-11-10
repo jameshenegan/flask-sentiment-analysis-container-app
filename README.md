@@ -102,7 +102,7 @@ I am not feeling well.
 I sent you a message on Teams.
 ```
 
-#### - **Conversation**:
+#### **Conversation**:
 
 #### Example 1
 
@@ -171,4 +171,4 @@ Customer: I plan on discontinuing my service.  Thanks for nothing.
 - [Flask Documentation](https://flask.palletsprojects.com/)
 - [Matplotlib Documentation](https://matplotlib.org/stable/contents.html)
 - [Docker Documentation](https://docs.docker.com/)
-- [Transformers Documentation](https://huggingface.co/transformers/)
+- [Transformers Documentation](https://github.com/huggingface/transformers)
