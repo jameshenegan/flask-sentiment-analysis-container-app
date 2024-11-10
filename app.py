@@ -38,13 +38,21 @@ def parse_conversation(text):
 def index():
     return render_template('index.html')
 
+@app.route('/classify', methods=['POST'])
+def classify():
+    text = request.form['single_text']
+    result = sentiment_pipeline(text)[0]
+    sentiment = result['label']
+    confidence = result['score']
+    return render_template('results_single.html', sentiment=sentiment, confidence=confidence)
+
 @app.route('/analyze', methods=['POST'])
 def analyze():
     # Ensure static directory exists
     os.makedirs('static', exist_ok=True)
     
     # Get the input text from the form
-    text = request.form['text_input']
+    text = request.form['conversation_text']
     conversation = parse_conversation(text)
     
     # Separate the data for plotting
@@ -67,7 +75,7 @@ def analyze():
     plt.savefig('static/sentiment_plot.png')
     plt.close()
 
-    return render_template('results.html', conversation=conversation, image_path='static/sentiment_plot.png')
+    return render_template('results_conversation.html', conversation=conversation, image_path='static/sentiment_plot.png')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5050)

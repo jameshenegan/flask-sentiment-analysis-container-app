@@ -6,17 +6,36 @@
     <title>Sentiment Analysis</title>
   </head>
   <body>
-    <h1>Enter Text to Analyze</h1>
-    <form action="/analyze" method="post">
+    <h1>Sentiment Analysis Options</h1>
+
+    <!-- Single Text Classification Form -->
+    <h2>Classify a Block of Text</h2>
+    <form action="/classify" method="post">
       <textarea
-        name="text_input"
-        rows="10"
+        name="single_text"
+        rows="5"
         cols="50"
-        placeholder="Enter text here"
+        placeholder="Enter a single block of text here"
         required
       ></textarea>
       <br /><br />
-      <button type="submit">Submit</button>
+      <button type="submit">Classify Text</button>
+    </form>
+
+    <hr />
+
+    <!-- Conversation Analysis Form -->
+    <h2>Analyze a Conversation</h2>
+    <form action="/analyze" method="post">
+      <textarea
+        name="conversation_text"
+        rows="10"
+        cols="50"
+        placeholder="Enter a conversation in 'Author: Message' format"
+        required
+      ></textarea>
+      <br /><br />
+      <button type="submit">Analyze Conversation</button>
     </form>
   </body>
 </html>
